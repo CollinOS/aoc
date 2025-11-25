@@ -55,22 +55,21 @@ def part1(data) -> int | str:
     y = 0
     length = len(data)
     trees = 0
-    while y < length:
-        if(y=0):
-            if (row[x] == 'x'):
-            trees += 1
-        
+    while y < (length-1):
+        # need to handle first iteration where y = 0
 
-        if (x < len(data[y])):
+        # this conditional feels a little redundant
+        if ((x + 3) < len(data[y])):
             y += 1
             x += 3
         else:
             y += 1
             x = (x + 3) - len(data[y])
 
-        #need to tell it to look at item y of data, and check character in pos X
+        # need to tell it to look at item y of data, and check character in pos X
         row = list(data[y])
-        if (row[x] == 'x'):
+
+        if (row[x] == '#'):
             trees += 1
 
     return(trees)
