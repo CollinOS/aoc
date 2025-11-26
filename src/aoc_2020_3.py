@@ -4,7 +4,7 @@ from pathlib import Path
 # Config for this day
 # -------------------
 DAY = 3  # change this per file: 1, 2, 3, ...
-YEAR = 2025  # optional, just for reference/logging
+YEAR = 2020  # optional, just for reference/logging
 
 
 # -------------------
@@ -57,6 +57,9 @@ def part1(data) -> int | str:
     trees = 0
     while y < (length-1):
         # need to handle first iteration where y = 0
+        if y == 0:
+            if (data[y])[0] == '#':
+                trees += 1
 
         # this conditional feels a little redundant
         if ((x + 3) < len(data[y])):
@@ -76,11 +79,45 @@ def part1(data) -> int | str:
 
 
 def part2(data) -> int | str:
-    """
-    Solve part 2.
-    """
-    # TODO: implement
-    return 0
+    x = 0
+    y = 0
+    length = len(data)
+    trees = 0
+    mult_trees = 1
+
+
+    right = [1, 3, 5, 7, 1]
+    down = [1, 1, 1, 1, 2]
+    i = 0
+
+    while y < (length-1) and i < (len(right)):
+        # need to handle first iteration where y = 0
+        if y == 0:
+            if (data[y])[0] == '#':
+                trees += 1
+
+        # this conditional feels a little redundant
+        if ((x + right[i]) < len(data[y])):
+            y += down[i]
+            x += right[i]
+        else:
+            y += down[i]
+            x = (x + right[i]) - len(data[y])
+
+        # need to tell it to look at item y of data, and check character in pos X
+        row = list(data[y])
+
+        if (row[x] == '#'):
+            trees += 1
+
+        if (y == length-1):
+            i += 1
+            x = 0
+            y = 0
+            mult_trees *= trees
+            trees = 0
+
+    return(mult_trees)
 
 
 # -------------------
