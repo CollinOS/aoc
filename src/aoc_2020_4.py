@@ -41,19 +41,42 @@ def parse(raw: str):
 
 
 def part1(data) -> int | str:
-    """
-    Solve part 1.
-    """
-    # TODO: before you start, change DAY at the top to match the day of the problem
-    return 0
+    valid = 0
+    joined_list = "\n".join(data)
+    split_list = joined_list.split("\n\n")
+    passports = [s.replace("\n", " ") for s in split_list]
+    required_fields = ["iyr:", "hgt:", "byr:", "pid:", "eyr:", "hcl:", "ecl:"]
+    for p in passports:
+        if all(field in p for field in required_fields):
+
+
+            valid += 1
+    return valid
 
 
 def part2(data) -> int | str:
-    """
-    Solve part 2.
-    """
-    # TODO: implement
-    return 0
+    valid = 0
+    joined_list = "\n".join(data)
+    split_list = joined_list.split("\n\n")
+    passports = [s.replace("\n", " ") for s in split_list]
+    required_fields = ["iyr:", "hgt:", "byr:", "pid:", "eyr:", "hcl:", "ecl:"]
+    for p in passports:
+        if all(field in p for field in required_fields):
+            passport_fields = p.split(" ")
+            print(passport_fields)
+            for f in passport_fields:
+                check = 0
+                if byr >= 1920 and byr <= 2002:
+                    check += 1
+                if iyr >= 2010 and iyr <= 2020:
+                    check += 1
+                if eyr >= 2020 and eyr <= 2030:
+                    check += 1
+
+                if checks == 6:
+                    valid += 1
+
+    return valid
 
 
 # -------------------
