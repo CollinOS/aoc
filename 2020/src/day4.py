@@ -1,3 +1,5 @@
+
+import re
 from pathlib import Path
 
 # -------------------
@@ -63,18 +65,30 @@ def part2(data) -> int | str:
     for p in passports:
         if all(field in p for field in required_fields):
             passport_fields = p.split(" ")
-            print(passport_fields)
+            check = 0
             for f in passport_fields:
-                check = 0
-                if byr >= 1920 and byr <= 2002:
+                key, value = f.split(":")
+                if key == "byr" and 1920 <= int(value) <= 2002:
                     check += 1
-                if iyr >= 2010 and iyr <= 2020:
+                if key == "iyr" and 2010 <= int(value) <= 2020:
                     check += 1
-                if eyr >= 2020 and eyr <= 2030:
+                if key == "eyr" and 2020 <= int(value) <= 2030:
                     check += 1
-
-                if checks == 6:
-                    valid += 1
+                if key == "hgt":
+                    split = re.split(r"(?<=[0-9])(?=[A-Za-z])", value)
+                    if len(split) == 2:
+                        if split[1] == "cm" and int(split[0]) >= 150 and int(split[0]) <= 193:
+                            check += 1
+                        if split[1] == "in" and int(split[0]) >= 59 and int(split[0]) <= 76:
+                            check += 1
+                if key == "hcl" and re.fullmatch(r"#[0-9a-f]{6}", value):
+                    check += 1
+                if key == "ecl" and value == "amb" or value == "blu" or value == "brn" or value == "gry" or value == "grn" or value == "hzl" or value == "oth":
+                    check += 1
+                if key == "pid" and all(x in "0123456789" for x in value) and len(value) == 9:
+                    check += 1
+            if check == len(required_fields):
+                valid += 1
 
     return valid
 
